@@ -4,7 +4,7 @@ import time
 import random
 
 
-def initialize(size: int = 5, weight_t: int = 1, weight_f: int = 1):
+def cgl_initialize(size: int = 5, weight_t: int = 1, weight_f: int = 1):
     """
     create a matrix of size x and populate with True und False
     with weight y for True
@@ -13,7 +13,7 @@ def initialize(size: int = 5, weight_t: int = 1, weight_f: int = 1):
     return [random.choices(population, weights=[weight_t, weight_f], k=size) for _ in range(size)]
 
 
-def clear(sec):
+def cgl_clear(sec):
     if os.name == "posix":
         time.sleep(sec)
         os.system('clear')
@@ -22,7 +22,7 @@ def clear(sec):
         os.system('cls')
 
 
-def get_alives(i: int, j: int, matrix: list) -> (bool, list):
+def cgl_get_alives(i: int, j: int, matrix: list) -> (bool, list):
     """
     Check the eight surrounding Cells of a cell (i,j),
     and store how many cells around them are alive.
@@ -60,10 +60,10 @@ def get_alives(i: int, j: int, matrix: list) -> (bool, list):
     return status, alives
 
 
-def set_alive(i, j, matrix) -> bool:
+def cgl_set_alive(i, j, matrix) -> bool:
     """the alives around a cell determine if a cell is alive or dead"""
 
-    status, surrounding = get_alives(i, j, matrix)
+    status, surrounding = cgl_get_alives(i, j, matrix)
 
     alives = surrounding.count(1)
 
@@ -77,18 +77,18 @@ def set_alive(i, j, matrix) -> bool:
         return False
 
 
-def update(matrix: list):
+def cgl_update(matrix: list):
     matrix_copy = copy.deepcopy(matrix)
 
     for i in range(len(matrix)):
 
         for j in range(len(matrix[0])):
-            matrix_copy[i][j] = set_alive(i, j, matrix)
+            matrix_copy[i][j] = cgl_set_alive(i, j, matrix)
 
     return matrix_copy
 
 
-def print_matrix(matrix, cycle):
+def cgl_print_matrix(matrix, cycle):
     print(
         """
     | Conway's Game of Life |
@@ -101,19 +101,19 @@ def print_matrix(matrix, cycle):
     print(f"\nGeneration: {cycle}")
 
 
-def play(matrix, cycles, sec=1):
+def cgl_play(matrix, cycles, sec=1):
     cycle = 1
-    print_matrix(matrix, cycle)
-    clear(sec)
+    cgl_print_matrix(matrix, cycle)
+    cgl_clear(sec)
 
     while cycle <= cycles:
-        matrix = update(matrix)
+        matrix = cgl_update(matrix)
 
         if not any([any(el) for el in matrix]):
             break
 
-        print_matrix(matrix, cycle)
-        clear(sec)
+        cgl_print_matrix(matrix, cycle)
+        cgl_clear(sec)
         cycle += 1
 
-    print_matrix(matrix, cycle)
+    cgl_print_matrix(matrix, cycle)
