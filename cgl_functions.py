@@ -109,7 +109,7 @@ def cgl_play(matrix, cycles, sec=1):
     while cycle <= cycles:
         matrix = cgl_update(matrix)
 
-        if not any([any(el) for el in matrix]):
+        if cgl_is_exit_status(matrix):
             break
 
         cgl_print_matrix(matrix, cycle)
@@ -117,3 +117,16 @@ def cgl_play(matrix, cycles, sec=1):
         cycle += 1
 
     cgl_print_matrix(matrix, cycle)
+
+
+def cgl_is_exit_status(matrix: list) -> bool:
+    """check conditions when program should exit"""
+
+    # first condition: all cells are dead
+    if all([not any(el) for el in matrix]):
+        return True
+    # second condition: only stable forms established
+    # to be done!
+    else:
+        return False
+
